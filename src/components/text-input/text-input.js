@@ -9,6 +9,7 @@ export default function TextInput({ ...props }) {
 const styles = StyleSheet.create({
   element: {
     backgroundColor: VARIABLES.TEXT_INPUT,
+    color: VARIABLES.TEXT_INPUT_COLOR,
     borderColor: VARIABLES.BORDER,
     borderWidth: 1,
     borderRadius: 8,

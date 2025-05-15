@@ -17,6 +17,7 @@ const theme = {
       OVERLAY: "rgba(0, 0, 0, 0.2)",
       BORDER: "rgba(60, 60, 67, 0.25)",
       TEXT_INPUT: "rgba(255, 255, 255, 1)",
+      TEXT_INPUT_COLOR: "rgba(0, 0, 0, 1)",
       LABEL: Platform.select({
         ios: "rgb(0, 0, 0)",
         android: "rgb(0, 0, 0)",
@@ -44,6 +45,7 @@ const theme = {
       OVERLAY: "rgba(0, 0, 0, 0.2)",
       BORDER: "rgba(60, 60, 67, 0.25)",
       TEXT_INPUT: "rgba(255, 255, 255, 1)",
+      TEXT_INPUT_COLOR: "rgba(0, 0, 0, 1)",
       LABEL: Platform.select({
         ios: "rgb(0, 0, 0)",
         android: "rgb(0, 0, 0)",
