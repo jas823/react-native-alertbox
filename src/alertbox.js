@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   StyleSheet,
   Animated,
   KeyboardAvoidingView,
   Platform,
-} from "react-native";
+} from 'react-native'
 
-import Button from "./components/button/button";
-import Card from "./components/card/card";
-import Text from "./components/text/text";
-import TextInput from "./components/text-input/text-input";
+import Button from './components/button/button'
+import Card from './components/card/card'
+import Text from './components/text/text'
+import TextInput from './components/text-input/text-input'
 
-import { SCREEN_WIDTH, VARIABLES } from "./constants/index";
+import { SCREEN_WIDTH, VARIABLES } from './constants/index'
 
 export default function Alertbox({
   title,
@@ -21,133 +21,144 @@ export default function Alertbox({
   fields,
   dispatchRemove,
 }) {
-  const [fieldState, setFieldState] = useState({});
-  const behavior = Platform.select({ ios: "padding", android: "height" });
-  const animatedValue = useRef(new Animated.Value(0)).current;
+  const [fieldState, setFieldState] = useState({})
+  const behavior = Platform.select({ ios: 'padding', android: 'height' })
+  const animatedValue = useRef(new Animated.Value(0)).current
   const opacity = animatedValue.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 1],
-  });
+  })
   const scale = animatedValue.interpolate({
     inputRange: [0, 1],
     outputRange: [1.1, 1],
-  });
+  })
 
   const handleChangeField = (name, value, callback) => {
-    setFieldState((prevState) => ({
+    setFieldState(prevState => ({
       ...prevState,
       [name]: value,
-    }));
-    callback?.(value);
-  };
+    }))
+    callback?.(value)
+  }
 
-  const handleClose = (action) => {
+  const handleClose = action => {
     Animated.timing(animatedValue, {
       toValue: 0,
       duration: 100,
       useNativeDriver: true,
     }).start(() => {
-      dispatchRemove();
-      if (action && typeof action === "function") {
-        action(fieldState);
+      dispatchRemove()
+      if (action && typeof action === 'function') {
+        action(fieldState)
       }
-    });
-  };
+    })
+  }
 
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
       duration: 200,
       useNativeDriver: true,
-    }).start();
-  }, [animatedValue]);
+    }).start()
+  }, [animatedValue])
 
   return (
-    <KeyboardAvoidingView style={styles.keyboardWrapper} behavior={behavior}>
-      <Animated.View style={[styles.wrapper, { opacity }]}>
-        <Animated.View style={[styles.inner, { transform: [{ scale }] }]}>
-          <Card.Wrapper>
-            <Card.Body>
-              {title && <Text weight="bold">{title}</Text>}
-              {paragraph && (
-                <Text size="small" style={styles.paragraph}>
-                  {paragraph}
-                </Text>
-              )}
-            </Card.Body>
-            {fields?.length > 0 && (
-              <View style={styles.fieldsWrapper}>
-                {fields.map((field, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      marginBottom: fields.length - 1 !== index ? 10 : 0,
-                    }}
-                  >
-                    <TextInput
-                      autoFocus={index === 0}
-                      placeholderTextColor={VARIABLES.SYSTEM_GRAY}
-                      {...field}
-                      onChangeText={(value) =>
-                        handleChangeField(field.name, value, field.onChangeText)
-                      }
-                    />
-                  </View>
-                ))}
-              </View>
-            )}
-            <Card.Footer>
-              {actions ? (
-                actions.map((action, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.buttonItem,
-                      {
-                        borderRightWidth: actions.length - 1 !== index ? 1 : 0,
-                      },
-                    ]}
-                  >
-                    <Button
-                      title={action.text}
-                      onPress={() => handleClose(action.onPress)}
-                      textWeight={
-                        action.style === "cancel" ? "bold" : "regular"
-                      }
-                    />
-                  </View>
-                ))
-              ) : (
-                <View style={styles.buttonItem}>
-                  <Button
-                    title="Close"
-                    onPress={handleClose}
-                    textWeight="bold"
-                  />
+    <View style={styles.viewWrapper}>
+      <KeyboardAvoidingView style={styles.keyboardWrapper} behavior={behavior}>
+        <Animated.View style={[styles.wrapper, { opacity }]}>
+          <Animated.View style={[styles.inner, { transform: [{ scale }] }]}>
+            <Card.Wrapper>
+              <Card.Body>
+                {title && <Text weight="bold">{title}</Text>}
+                {paragraph && (
+                  <Text size="small" style={styles.paragraph}>
+                    {paragraph}
+                  </Text>
+                )}
+              </Card.Body>
+              {fields?.length > 0 && (
+                <View style={styles.fieldsWrapper}>
+                  {fields.map((field, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        marginBottom: fields.length - 1 !== index ? 10 : 0,
+                      }}>
+                      <TextInput
+                        autoFocus={index === 0}
+                        placeholderTextColor={VARIABLES.SYSTEM_GRAY}
+                        {...field}
+                        onChangeText={value =>
+                          handleChangeField(
+                            field.name,
+                            value,
+                            field.onChangeText,
+                          )
+                        }
+                      />
+                    </View>
+                  ))}
                 </View>
               )}
-            </Card.Footer>
-          </Card.Wrapper>
+              <Card.Footer>
+                {actions ? (
+                  actions.map((action, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        styles.buttonItem,
+                        {
+                          borderRightWidth:
+                            actions.length - 1 !== index ? 1 : 0,
+                        },
+                      ]}>
+                      <Button
+                        title={action.text}
+                        onPress={() => handleClose(action.onPress)}
+                        textWeight={
+                          action.style === 'cancel' ? 'bold' : 'regular'
+                        }
+                      />
+                    </View>
+                  ))
+                ) : (
+                  <View style={styles.buttonItem}>
+                    <Button
+                      title="Close"
+                      onPress={handleClose}
+                      textWeight="bold"
+                    />
+                  </View>
+                )}
+              </Card.Footer>
+            </Card.Wrapper>
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
-    </KeyboardAvoidingView>
-  );
+      </KeyboardAvoidingView>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-  keyboardWrapper: {
-    position: "absolute",
+  viewWrapper: {
+    position: 'absolute',
     zIndex: 9,
     top: 0,
     left: 0,
-    width: "100%",
-    height: "100%",
-  },
-  wrapper: {
     backgroundColor: VARIABLES.OVERLAY,
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    width: '100%',
+    height: '100%',
+  },
+  keyboardWrapper: {
+    width: '100%',
+    height: '90%',
+    marginVertical: '10%',
+  },
+  wrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '90%',
   },
   inner: {
     width: SCREEN_WIDTH * 0.67,
@@ -155,7 +166,7 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     marginTop: 5,
-    textAlign: "center",
+    textAlign: 'center',
   },
   buttonItem: {
     flex: 1,
@@ -165,6 +176,6 @@ const styles = StyleSheet.create({
   fieldsWrapper: {
     marginBottom: 15,
     paddingHorizontal: 15,
-    width: "100%",
+    width: '100%',
   },
-});
+})

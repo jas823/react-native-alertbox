@@ -1,12 +1,14 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React from 'react'
+import { View, StyleSheet, ScrollView } from 'react-native'
 
-export default function CardBody({children, ...props}) {
+export default function CardBody({ children, ...props }) {
   return (
-    <View style={styles.body} {...props}>
-      {children}
-    </View>
-  );
+    <ScrollView>
+      <View style={styles.body} {...props}>
+        {children}
+      </View>
+    </ScrollView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -16,4 +18,4 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 16,
   },
-});
+})
